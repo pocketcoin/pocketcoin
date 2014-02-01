@@ -5,6 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
+
 //
 // Why base-58 instead of standard base-64 encoding?
 // - Don't want 0OIl characters that look the same in some fonts and
@@ -125,6 +126,7 @@ inline bool DecodeBase58(const std::string& str, std::vector<unsigned char>& vch
 {
     return DecodeBase58(str.c_str(), vchRet);
 }
+
 
 
 
@@ -277,7 +279,7 @@ class CBitcoinAddress : public CBase58Data
 public:
     enum
     {
-        PUBKEY_ADDRESS = 38, //Set the address first bit here
+        PUBKEY_ADDRESS = 22, //Set the address first bit here
         SCRIPT_ADDRESS = 5,
         PUBKEY_ADDRESS_TEST = 111,
         SCRIPT_ADDRESS_TEST = 196,

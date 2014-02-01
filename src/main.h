@@ -40,7 +40,7 @@ static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 static const int64 MIN_TX_FEE = 10000000;
 static const int64 MIN_RELAY_TX_FEE = MIN_TX_FEE;
-static const int64 MAX_MONEY = 10000 * COIN; // maximum number of coins
+static const int64 MAX_MONEY = 123456789 * COIN; // maximum number of coins
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 static const int COINBASE_MATURITY = 15;
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
@@ -52,7 +52,9 @@ static const int fHaveUPnP = false;
 #endif
 
 
+
 extern CScript COINBASE_FLAGS;
+
 
 
 
@@ -85,6 +87,7 @@ extern int64 nMinimumInputValue;
 
 // Minimum disk space required - used in CheckDiskSpace()
 static const uint64 nMinDiskSpace = 52428800;
+
 
 
 class CReserveKey;
@@ -236,6 +239,7 @@ public:
 
 
 
+
 /** An input of a transaction.  It contains the location of the previous
  * transaction's output that it claims and a signature that matches the
  * output's public key.
@@ -314,6 +318,7 @@ public:
 
 
 
+
 /** An output of a transaction.  It contains the public key that the next input
  * must be able to sign with to claim it.
  */
@@ -379,6 +384,7 @@ public:
         printf("%s\n", ToString().c_str());
     }
 };
+
 
 
 
@@ -547,7 +553,7 @@ public:
     {
         // Large (in bytes) low-priority (new, small-coin) transactions
         // need a fee.
-        return dPriority > COIN * 576 / 250; // 5760 blocks found a day. Priority cutoff is 1 SMC day / 250 bytes.
+        return dPriority > COIN * 28800 / 250; // 288 blocks found a day. Priority cutoff is 1 SMC day / 250 bytes.
     }
 
     int64 GetMinFee(unsigned int nBlockSize=1, bool fAllowFree=true, enum GetMinFee_mode mode=GMF_BLOCK) const
@@ -595,6 +601,7 @@ public:
     }
 
 
+
     bool ReadFromDisk(CDiskTxPos pos, FILE** pfileRet=NULL)
     {
         CAutoFile filein = CAutoFile(OpenBlockFile(pos.nFile, 0, pfileRet ? "rb+" : "rb"), SER_DISK, CLIENT_VERSION);
@@ -636,6 +643,7 @@ public:
     }
 
 
+
     std::string ToString() const
     {
         std::string str;
@@ -656,6 +664,7 @@ public:
     {
         printf("%s", ToString().c_str());
     }
+
 
 
     bool ReadFromDisk(CTxDB& txdb, COutPoint prevout, CTxIndex& txindexRet);
@@ -715,6 +724,7 @@ public:
     mutable bool fMerkleVerified;
 
 
+
     CMerkleTx()
     {
         Init();
@@ -733,6 +743,7 @@ public:
     }
 
 
+
     IMPLEMENT_SERIALIZE
     (
         nSerSize += SerReadWrite(s, *(CTransaction*)this, nType, nVersion, ser_action);
@@ -743,6 +754,7 @@ public:
     )
 
 
+
     int SetMerkleBranch(const CBlock* pblock=NULL);
     int GetDepthInMainChain(CBlockIndex* &pindexRet) const;
     int GetDepthInMainChain() const { CBlockIndex *pindexRet; return GetDepthInMainChain(pindexRet); }
@@ -751,6 +763,7 @@ public:
     bool AcceptToMemoryPool(CTxDB& txdb, bool fCheckInputs=true);
     bool AcceptToMemoryPool();
 };
+
 
 
 
@@ -905,6 +918,7 @@ public:
     void UpdateTime(const CBlockIndex* pindexPrev);
 
 
+
     uint256 BuildMerkleTree() const
     {
         vMerkleTree.clear();
@@ -954,6 +968,7 @@ public:
         }
         return hash;
     }
+
 
 
     bool WriteToDisk(unsigned int& nFileRet, unsigned int& nBlockPosRet)
@@ -1032,6 +1047,7 @@ public:
     }
 
 
+
     bool DisconnectBlock(CTxDB& txdb, CBlockIndex* pindex);
     bool ConnectBlock(CTxDB& txdb, CBlockIndex* pindex);
     bool ReadFromDisk(const CBlockIndex* pindex, bool fReadTransactions=true);
@@ -1043,6 +1059,7 @@ public:
 private:
     bool SetBestChainInner(CTxDB& txdb, CBlockIndex *pindexNew);
 };
+
 
 
 
@@ -1073,6 +1090,7 @@ public:
     unsigned int nTime;
     unsigned int nBits;
     unsigned int nNonce;
+
 
 
     CBlockIndex()
@@ -1248,6 +1266,7 @@ public:
     }
 
 
+
     std::string ToString() const
     {
         std::string str = "CDiskBlockIndex(";
@@ -1264,6 +1283,7 @@ public:
         printf("%s\n", ToString().c_str());
     }
 };
+
 
 
 
